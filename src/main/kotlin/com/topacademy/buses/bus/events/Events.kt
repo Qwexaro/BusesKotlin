@@ -24,7 +24,7 @@ class Events {
         }
     }
 
-    inline fun <reified T : Event> list() = run {
+    inline fun <reified T : Event> read() = run {
         val key = T::class.java
 
         with(store) {
