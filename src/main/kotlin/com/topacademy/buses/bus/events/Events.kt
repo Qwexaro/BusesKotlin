@@ -8,17 +8,18 @@ class Events {
 
     val store = store()
 
-    inline fun <reified T : Event> push(event: T) = run {
+    inline fun <reified T : Event> push(block: () -> T) = run {
         val key = T::class.java
 
+        val value = block()
         val bucket = with(store) {
             bucket(key)
         }
 
         with(bucket) {
-            contains(event).not().run {
+            contains(value).not().run {
                 if (this) {
-                    add(event)
+                    add(value)
                 }
             }
         }
